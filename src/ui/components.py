@@ -38,5 +38,5 @@ def show_detected_image(
     """
     Display the image with detected boxes and a count
     """
-    st.image(image, caption=caption, use_column_width=True)
+    st.image(image, caption=caption, use_container_width=True)
     st.write(f"Found {len(boxes)} text boxes")
