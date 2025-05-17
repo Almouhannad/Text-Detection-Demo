@@ -48,8 +48,8 @@ cd Text-Detection-Demo
 pip install -r requirements.txt
 ```
 
-3. Download the model from [here](https://paddlepaddle.github.io/PaddleOCR/main/en/ppocr/model_list.html) and convert it to ONNX format and put it in `models` directory
-    - For more details see [this repo](https://github.com/PaddlePaddle/PaddleOCR/tree/main/deploy/paddle2onnx)
+3. Download the model from [here](https://paddlepaddle.github.io/PaddleOCR/main/en/ppocr/model_list.html) then convert it to ONNX format and finally put it in `models` directory (**In the root of this project**)
+    - For more details see `paddle2onnx\paddle2onnx_convertor.ipynb` ***or*** [this repo](https://github.com/PaddlePaddle/PaddleOCR/tree/main/deploy/paddle2onnx)
 
 ### Running the Application
 
