@@ -1,7 +1,7 @@
 import io
 import numpy as np
 from PIL import Image
-from src.config import IMAGE_SIZE, MEAN, STD
+from config import IMAGE_SIZE, MEAN, STD
 
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     """

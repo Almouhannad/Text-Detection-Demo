@@ -1,6 +1,6 @@
 import onnxruntime as ort
 import streamlit as st
-from src.config import MODEL_PATH
+from config import MODEL_PATH
 
 @st.cache_resource
 def load_session(model_path: str = str(MODEL_PATH)) -> ort.InferenceSession:

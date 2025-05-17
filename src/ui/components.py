@@ -1,15 +1,15 @@
 import streamlit as st
 from PIL import Image
-from typing import List
+from typing import List, Union
 import numpy as np
 
-from src.config import STREAMLIT_TITLE, UPLOAD_TYPES
+from config import STREAMLIT_TITLE, UPLOAD_TYPES
 
 def render_header():
     """Render the page title"""
     st.title(STREAMLIT_TITLE)
 
-def file_uploader() -> bytes | None:
+def file_uploader() -> Union[bytes, None]:
     """
     Show a file uploader and return the raw bytes of the uploaded image (once).
     Returns None if no file is uploaded
