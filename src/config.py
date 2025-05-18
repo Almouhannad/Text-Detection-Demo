@@ -4,6 +4,8 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 MODEL_DIR    = PROJECT_ROOT / "models"
 MODEL_PATH   = MODEL_DIR / "ml_PP-OCRv3_det.onnx"
+REC_MODEL_PATH = MODEL_DIR / "en_PP-OCRv3_rec.onnx"
+DICT_PATH = MODEL_DIR / "en_dict.txt"
 
 # === Image preprocessing ===
 IMAGE_SIZE   = (960, 960)    # width, height
