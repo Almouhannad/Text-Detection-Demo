@@ -33,10 +33,20 @@ def show_heatmap_info(heatmap: np.ndarray):
 def show_detected_image(
     image: Image.Image, 
     caption: str, 
-    boxes: List[np.ndarray]
+    boxes: List[np.ndarray],
+    crops: List[Image.Image]
 ):
     """
-    Display the image with detected boxes and a count
+    Display the image with detected boxes, a count, and the extracted text crops
     """
     st.image(image, caption=caption, use_container_width=True)
     st.write(f"Found {len(boxes)} text boxes")
+    
+    if crops:
+        st.subheader("Extracted Text Regions")
+        # Display crops in a grid
+        cols = st.columns(4)  # Show 4 crops per row
+        for i, crop in enumerate(crops):
+            col_idx = i % 4
+            with cols[col_idx]:
+                st.image(crop, use_container_width= True)

@@ -43,7 +43,7 @@ def main():
     orig = orig.resize((input_tensor.shape[-1], input_tensor.shape[-2]), Image.BILINEAR)
 
     # 7) Postprocess & draw
-    vis_img, boxes = postprocess_and_draw(
+    vis_img, boxes, crops = postprocess_and_draw(
         orig_image=orig,
         heatmap=heatmap,
         box_thresh=BOX_THRESH,
@@ -53,7 +53,7 @@ def main():
     )
 
     # 8) Display results
-    show_detected_image(vis_img, caption="Detected text regions", boxes=boxes)
+    show_detected_image(vis_img, caption="Detected text regions", boxes=boxes, crops=crops)
 
 
 if __name__ == "__main__":

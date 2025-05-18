@@ -3,6 +3,8 @@ import cv2
 from PIL import Image, ImageDraw
 from typing import List, Tuple
 
+from config import TEXT_RECOGNITION_HEIGHT
+
 def postprocess_and_draw(
     orig_image: Image.Image,
     heatmap: np.ndarray,
@@ -10,10 +12,10 @@ def postprocess_and_draw(
     min_area: float,
     poly_eps_ratio: float,
     unclip_ratio: float
-) -> Tuple[Image.Image, List[np.ndarray]]:
+) -> Tuple[Image.Image, List[np.ndarray], List[Image.Image]]:
     """
-    Given an original PIL image and a raw haetmap, detect text regions
-    and draw squares around them
+    Given an original PIL image and a raw haetmap, detect text regions,
+    draw squares around them, and extract text crops
 
     Args:
         orig_image: PIL.Image resized to model input size
@@ -26,6 +28,7 @@ def postprocess_and_draw(
     Returns:
         canvas: PIL.Image with red polygon overlays
         boxes: List of (N*2) int arrays of polygon vertices
+        crops: List of PIL.Image crops with height=TEXT_RECOGNITION_HEIGHT and preserved aspect ratio
     """
     # 1) Smooth heatmap
     smoothed = cv2.GaussianBlur(heatmap, (5, 5), 0)
@@ -39,6 +42,7 @@ def postprocess_and_draw(
     contours, _ = cv2.findContours(clean, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     boxes = []
+    crops = []
     for cnt in contours:
         if cv2.contourArea(cnt) < min_area:
             continue
@@ -58,6 +62,17 @@ def postprocess_and_draw(
         pts_int = np.round(expanded).astype(int)
         boxes.append(pts_int)
 
+        # Extract crop with fixed height
+        x_min, y_min = pts_int.min(axis=0)
+        x_max, y_max = pts_int.max(axis=0)
+        crop = orig_image.crop((x_min, y_min, x_max, y_max))
+        
+        # Resize to fixed height while maintaining aspect ratio
+        w, h = crop.size
+        new_w = int(w * (TEXT_RECOGNITION_HEIGHT / h))
+        crop = crop.resize((new_w, TEXT_RECOGNITION_HEIGHT), Image.Resampling.LANCZOS)
+        crops.append(crop)
+
     # 6) Draw on a copy of the original
     canvas = orig_image.copy()
     draw = ImageDraw.Draw(canvas)
@@ -65,4 +80,4 @@ def postprocess_and_draw(
         poly = [tuple(pt) for pt in pts]
         draw.line(poly + [poly[0]], width=5, fill="red")
 
-    return canvas, boxes
+    return canvas, boxes, crops

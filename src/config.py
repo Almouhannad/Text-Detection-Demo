@@ -16,6 +16,9 @@ MIN_AREA         = 300
 POLY_EPS_RATIO   = 0.01
 UNCLIP_RATIO     = 1.8
 
+# === Text recognition settings ===
+TEXT_RECOGNITION_HEIGHT = 48  # Required height for text recognition
+
 # === Streamlit UI settings ===
 STREAMLIT_TITLE  = "Text Detection Demo"
 UPLOAD_TYPES     = ["jpg", "png", "jpeg"]
